@@ -1,0 +1,15 @@
+mkdir github-upload
+cp *py github-upload/
+cp *ipynb github-upload
+cp -r data/ github-load
+cd github-upload
+git init
+git config --global user.name "Koushik K Das"
+git config --global user.email "kkdtitu@yahoo.com"
+git status
+git add -A
+git status
+git commit -m "some comment"
+git log
+git remote add kkdtitu https://github.com/kkdtitu/udacity-data-model-postgres-python.git
+git push -u kkdtitu master
