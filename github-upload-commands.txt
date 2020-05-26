@@ -2,6 +2,7 @@ mkdir github-upload
 cp *py github-upload/
 cp *ipynb github-upload
 cp -r data/ github-load
+cp README.md github-load
 cd github-upload
 git init
 git config --global user.name "Koushik K Das"
