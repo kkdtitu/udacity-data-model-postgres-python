@@ -13,14 +13,15 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 songplay_table_create = ("""
 CREATE TABLE IF NOT EXISTS songplays (
 songplay_id SERIAL PRIMARY KEY, 
-start_time timestamp, 
-user_id varchar, 
+start_time timestamp REFERENCES time(start_time), 
+user_id varchar REFERENCES users(user_id), 
 level varchar, 
-song_id varchar, 
-artist_id varchar, 
+song_id varchar REFERENCES songs(song_id), 
+artist_id varchar REFERENCES artists(artist_id), 
 session_id int, 
 location varchar, 
-user_agent varchar)
+user_agent varchar,
+UNIQUE (start_time, user_id, session_id))
 """)
 
 # CREATE TABLE with right data types only if the table does not exist 
@@ -104,7 +105,8 @@ gender,
 level
 )
 VALUES (%s, %s, %s, %s, %s)
-ON CONFLICT (user_id) DO NOTHING
+ON CONFLICT (user_id) 
+DO UPDATE SET level = excluded.level
 """)
 
 # INSERT RECORDS
@@ -166,5 +168,5 @@ SELECT songs.song_id, artists.artist_id
 
 # QUERY LISTS to create and drop a list of tables
 
-create_table_queries = [songplay_table_create, user_table_create, song_table_create, artist_table_create, time_table_create]
-drop_table_queries = [songplay_table_drop, user_table_drop, song_table_drop, artist_table_drop, time_table_drop]
+create_table_queries = [user_table_create, song_table_create, artist_table_create, time_table_create, songplay_table_create]
+drop_table_queries = [user_table_drop, song_table_drop, artist_table_drop, time_table_drop, songplay_table_drop]
